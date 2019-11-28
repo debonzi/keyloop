@@ -34,7 +34,7 @@ setup(
     author="Daniel Debonzi",
     author_email="debonzi@gmail.com",
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 1 - Planning",
         "Programming Language :: Python :: 3.7",
     ],
     install_requires=requires,
