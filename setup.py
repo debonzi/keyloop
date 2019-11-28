@@ -5,7 +5,10 @@ from setuptools import setup
 with open("README.md") as f:
     long_description = f.read()
 
-requires = []
+requires = [
+    "pyramid==1.10.4",
+    "gunicorn==20.0.4",
+]
 test_requires = [
     "pytest",
     "pytest-cov",
@@ -14,9 +17,13 @@ test_requires = [
 ci_requires = [
     "python-coveralls",
 ]
-dev_requires = test_requires + ["black"]
+dev_requires = test_requires + ["black", "pre-commit"]
 
-extras_require = {"dev": dev_requires, "test": test_requires, "ci": ci_requires}
+extras_require = {
+    "dev": dev_requires,
+    "test": test_requires,
+    "ci": ci_requires,
+}
 
 setup(
     name="keyloop",
@@ -34,4 +41,5 @@ setup(
     extras_require=extras_require,
     url="https://github.com/debonzi/keyloop",
     packages=["keyloop",],
+    entry_points={"paste.app_factory": ["main = keyloop:main",],},
 )
