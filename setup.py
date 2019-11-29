@@ -8,6 +8,7 @@ with open("README.md") as f:
 requires = [
     "pyramid==1.10.4",
     "gunicorn==20.0.4",
+    "marshmallow==3.2.2",
 ]
 test_requires = [
     "pytest",
