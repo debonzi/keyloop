@@ -9,6 +9,7 @@ def hello_world(request):
 
 def main(global_config, **settings):
     with Configurator(settings=settings) as config:
+        config.include("keyloop.models")
         config.add_route("hello", "/")
         config.add_view(hello_world, route_name="hello")
         app = config.make_wsgi_app()

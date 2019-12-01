@@ -9,10 +9,12 @@ requires = [
     "pyramid==1.10.4",
     "gunicorn==20.0.4",
     "marshmallow==3.2.2",
+    "pymodm==0.4.2",
 ]
 test_requires = [
     "pytest",
     "pytest-cov",
+    "WebTest==2.0.33",
 ]
 ci_requires = [
     "python-coveralls",
