@@ -12,7 +12,6 @@ requires = [
 test_requires = [
     "pytest",
     "pytest-cov",
-    "tox",
 ]
 ci_requires = [
     "python-coveralls",
