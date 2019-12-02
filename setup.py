@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 from setuptools import setup
 
 with open("README.md") as f:
@@ -10,6 +8,7 @@ requires = [
     "gunicorn==20.0.4",
     "marshmallow==3.2.2",
     "pymodm==0.4.2",
+    "cryptacular==1.5.5",
 ]
 test_requires = [
     "pytest",
