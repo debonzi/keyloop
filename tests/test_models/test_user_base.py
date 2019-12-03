@@ -1,5 +1,6 @@
 import pytest
-from keyloop.models import UserExtension
+from keyloop.models.user import UserExtension
+from keyloop.models.dynamics.fields import CharField
 
 
 def test_user_password(registry):
@@ -16,8 +17,7 @@ def test_user_password(registry):
 
 
 def test_simple_extented_user(registry):
-    ue = UserExtension(field="custom", field_type="CharField")
-    ue.save()
+    CharField.create(UserExtension, "custom", required=True)
 
     registry.DynamicModels.User(email="debonzi@gmail.com", custom="11973102275").save()
 

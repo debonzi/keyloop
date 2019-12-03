@@ -29,6 +29,7 @@ class User(MongoModel):
 class UserExtension(MongoModel):
     field = fields.CharField(primary_key=True)
     field_type = fields.CharField()
+    field_args = fields.DictField(blank=True, default={})
 
     class Meta:
         write_concern = WriteConcern(j=True)
