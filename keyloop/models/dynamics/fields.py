@@ -21,7 +21,7 @@ class BaseField:
             value.
         """
         extension_class(
-            field="custom", field_type=cls.FIELD_TYPE, field_args=kwargs
+            field=field_name, field_type=cls.FIELD_TYPE, field_args=kwargs
         ).save()
 
 
