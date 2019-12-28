@@ -1,22 +1,15 @@
 import pymodm
-from ..user import User, UserExtension
+
+from dyn_pymodm import DynamicModelHandler
+from ..user import User
 
 
 class DynamicModels:
-    def _generate_class(self, name, parent, extension):
-        custom_fields = [
-            f for f in extension.objects.all()  # pylint: disable=maybe-no-member
-        ]
-
-        _fields_args = dict(__module__=parent.__module__)
-
-        for c in custom_fields:
-            _fields_args.update(
-                {c.field: getattr(pymodm.fields, c.field_type)(**c.field_args)}
-            )
-
-        return type(name, (parent,), _fields_args)
+    def __init__(self):
+        self.user_handler = DynamicModelHandler(
+            class_name="User", connection_alias="keyloop", parent_classes=User
+        )
 
     @property
     def User(self):
-        return self._generate_class("User", User, UserExtension)
+        return self.user_handler.model

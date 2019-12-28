@@ -6,9 +6,10 @@ with open("README.md") as f:
 requires = [
     "pyramid==1.10.4",
     "gunicorn==20.0.4",
-    "marshmallow==3.2.2",
+    "marshmallow==3.3.0",
     "pymodm==0.4.2",
     "cryptacular==1.5.5",
+    "cornice==4.0.1",
 ]
 test_requires = [
     "pytest",
@@ -18,7 +19,7 @@ test_requires = [
 ci_requires = [
     "python-coveralls",
 ]
-dev_requires = test_requires + ["black", "pre-commit"]
+dev_requires = ["black", "pre-commit"] + test_requires
 
 extras_require = {
     "dev": dev_requires,

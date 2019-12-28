@@ -1,0 +1,5 @@
+ * Define admin urls and its authorization method.
+ * Define User account management urls.
+  -> Decide how it can be used across projects.
+ * Define OAuth2 authorized urls.
+  -> Decide how it can be used across projects.

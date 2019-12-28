@@ -39,5 +39,5 @@ def testapp(app):
 
 
 @pytest.fixture(scope="function")
-def registry(app):
-    return app.registry
+def registry(testapp):
+    return testapp.app.registry
