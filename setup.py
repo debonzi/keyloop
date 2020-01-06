@@ -43,5 +43,8 @@ setup(
     extras_require=extras_require,
     url="https://github.com/debonzi/keyloop",
     packages=["keyloop",],
-    entry_points={"paste.app_factory": ["main = keyloop:main",],},
+    entry_points={
+        "paste.app_factory": ["main = keyloop:main",],
+        "console_scripts": ["kloop = keyloop.command.main:main"],
+    },
 )
