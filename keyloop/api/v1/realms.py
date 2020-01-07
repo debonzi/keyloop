@@ -5,9 +5,20 @@ from pymodm.errors import DoesNotExist
 from marshmallow import Schema, fields
 
 from pyramid.security import Allow, Everyone
-from pyramid.httpexceptions import HTTPNotFound
 
 from keyloop.models.realms import Realms
+
+
+class RealmsFactory:
+    def __init__(self, request):
+        self.request = request
+
+    def __acl__(self):
+        if self.request.request_iface.getName().startswith("collection_"):
+            # It is a collection request
+            return [(Allow, Everyone, "view")]
+        # resource request
+        return [(Allow, Everyone, "view")]
 
 
 class RealmSchema(Schema):
@@ -16,12 +27,10 @@ class RealmSchema(Schema):
     description = fields.Str(missing="")
 
 
-class RealmResource(object):
+class RealmResource:
     def __init__(self, request, context=None):
         self.request = request
-
-    def __acl__(self):
-        return [(Allow, Everyone, "view")]
+        self.context = context
 
     @resource.view(permission="view")
     def collection_get(self):
@@ -39,14 +48,15 @@ class RealmResource(object):
             return
         return RealmSchema().dump(realm_model)
 
-    # def collection_post(self):
-    #     print(self.request.json_body)
-    #     _USERS[len(_USERS) + 1] = self.request.json_body
-    #     return True
-
 
 realm_resource = resource.add_resource(
-    RealmResource, collection_path="/realms", path="/realms/{realm_slug}",
+    RealmResource,
+    collection_path="/realms",
+    path="/realms/{realm_slug}",
+    factory=RealmsFactory,
+    cors_enabled=True,
+    cors_origins=["https://accounts.geru-local.com.br"],
+    cors_credentials=True,
 )
 
 

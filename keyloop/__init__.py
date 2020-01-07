@@ -16,6 +16,8 @@ def main(global_config, **settings):
         authn_policy = AuthTktAuthenticationPolicy(
             "sekret",
             hashalg="sha512",
+            wild_domain=False,
+            # domain=".geru-local.com.br"
             # callback=groupfinder,
         )
         authz_policy = ACLAuthorizationPolicy()

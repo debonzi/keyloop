@@ -19,7 +19,7 @@ test_requires = [
 ci_requires = [
     "python-coveralls",
 ]
-dev_requires = ["black", "pre-commit"] + test_requires
+dev_requires = ["black", "pre-commit", "pylint"] + test_requires
 
 extras_require = {
     "dev": dev_requires,
