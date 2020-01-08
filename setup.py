@@ -15,6 +15,7 @@ test_requires = [
     "pytest",
     "pytest-cov",
     "WebTest==2.0.33",
+    "freezegun==0.3.13",
 ]
 ci_requires = [
     "python-coveralls",

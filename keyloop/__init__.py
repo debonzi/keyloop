@@ -4,8 +4,10 @@ from pyramid.response import Response
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 
+from keyloop.security import KeyLoopAuthenticationPolicy
 
-def main(global_config, **settings):
+
+def main(_, **settings):
     with Configurator(settings=settings) as config:
         config.include("keyloop.models")
         config.include("cornice")
@@ -13,10 +15,11 @@ def main(global_config, **settings):
         config.include("keyloop.api", route_prefix="/api")
 
         # Security policies
-        authn_policy = AuthTktAuthenticationPolicy(
+        authn_policy = KeyLoopAuthenticationPolicy(
             "sekret",
-            hashalg="sha512",
-            wild_domain=False,
+            max_age=30,
+            # hashalg="sha512",
+            # wild_domain=False,
             # domain=".geru-local.com.br"
             # callback=groupfinder,
         )
