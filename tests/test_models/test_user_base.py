@@ -1,28 +1,14 @@
-import pytest
-from keyloop.models.user import UserExtension
-from keyloop.models.dynamics.fields import CharField
+from keyloop.models import Credential, DBSession
 
 
-def test_user_password(registry):
-    u = registry.DynamicModels.User(email="debonzi@gmail.com")
-    u.password = "123123123a"
-    u.save()
+def test_credential_password():
+    cred = Credential()
+    cred.password = "123123123a"
 
-    su = registry.DynamicModels.User.objects.get(  # pylint: disable=maybe-no-member
-        {"_id": "debonzi@gmail.com"}
-    )
+    DBSession.add(cred)
+    DBSession.flush()
 
-    assert su._password != "123123123a"
-    assert su.password_check("123123123a") is True
+    restored_cred = Credential.query.filter_by(uuid=cred.uuid).first()
 
-
-def test_simple_extented_user(registry):
-    CharField.create(UserExtension, "custom", required=True)
-
-    registry.DynamicModels.User(email="debonzi@gmail.com", custom="11973102275").save()
-
-    su = registry.DynamicModels.User.objects.get(  # pylint: disable=maybe-no-member
-        {"_id": "debonzi@gmail.com"}
-    )
-
-    assert su.custom == "11973102275"
+    assert restored_cred._password != "123123123a"  # pylint: disable=protected-access
+    assert restored_cred.password_check("123123123a") is True

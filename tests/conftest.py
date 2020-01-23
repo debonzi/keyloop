@@ -1,26 +1,46 @@
 import pytest
-import pymodm
+import transaction
 
 from keyloop import main
 from pyramid import paster
 from pyramid import testing
 
+from sqlalchemy import engine_from_config
+
 from webtest import TestApp
+
+from keyloop.models import DBSession
+from keyloop.models.base import Base
 
 settings = paster.get_appsettings("testing.ini", name="main")
 
 
-def _clean_db():
-    mdb = pymodm.connection._get_db("keyloop")
-    for c in mdb.list_collection_names():
-        mdb[c].drop()
+@pytest.fixture(scope="session")
+def sqlalchemy_engine():
+    engine = engine_from_config(settings, "sqlalchemy.")
+    DBSession.configure(bind=engine)
+    Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
+    yield engine
+    Base.metadata.drop_all(engine)
+
+
+@pytest.fixture(scope="function", autouse=True)
+def sqlalchemy_subtransaction(sqlalchemy_engine):
+    connection = sqlalchemy_engine.connect()
+    trans = connection.begin_nested()
+    DBSession.configure(bind=connection)
+    yield
+    trans.rollback()
+    DBSession.remove()
+    transaction.abort()
+    connection.close()
 
 
 @pytest.fixture(scope="session")
 def app():
     config = testing.setUp(settings=settings)
     yield main(config, **settings)
-    _clean_db()
     testing.tearDown()
 
 
@@ -34,10 +54,9 @@ def testapp(app):
             HTTP_HOST="auth.keyloop.org",
         ),
     )
-    _clean_db()
     return testapp_
 
 
 @pytest.fixture(scope="function")
-def registry(app):
-    return app.registry
+def registry(testapp):
+    return testapp.app.registry

@@ -1,11 +1,11 @@
-import pymodm
-from pymodm import fields
-from keyloop.models.dynamics import DynamicModels
+from sqlalchemy import engine_from_config
+
+from .base import *
+from .credentials import *
+from .realms import *
 
 
 def includeme(config):
     settings = config.registry.settings
-    mongo_uri = settings.get("mongo.uri")
-    pymodm.connection.connect(mongo_uri, alias="keyloop")
-
-    config.registry.DynamicModels = DynamicModels()
+    engine = engine_from_config(settings, "sqlalchemy.")
+    DBSession.configure(bind=engine)
