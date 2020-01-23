@@ -1,12 +1,10 @@
 from cornice import resource
 
-from pymodm.errors import DoesNotExist
-
 from marshmallow import Schema, fields
 
 from pyramid.security import Allow, Everyone
 
-from keyloop.models.realms import Realms
+from keyloop.models import Realm
 
 
 class RealmsFactory:
@@ -34,15 +32,14 @@ class RealmResource:
 
     @resource.view(permission="view")
     def collection_get(self):
-        realms = Realms.objects.all()
+        realms = Realm.query.all()
         return RealmSchema().dump(realms, many=True)
 
     @resource.view(permission="view")
     def get(self):
         realm_slug = self.request.matchdict.get("realm_slug")
-        try:
-            realm_model = Realms.objects.get({"_id": realm_slug})
-        except DoesNotExist:
+        realm_model = Realm.query.filter_by(slug=realm_slug).first()
+        if not realm_model:
             self.request.errors.add("body", "realm_slug", "Realm does not exist")
             self.request.errors.status = 404
             return

@@ -1,21 +1,16 @@
-from pymodm import MongoModel, fields
-from pymongo import WriteConcern, ReadPreference, ASCENDING, IndexModel
+import sqlalchemy as sa
+
+from .base import Base
 
 
-class Realms(MongoModel):
-    slug = fields.CharField(primary_key=True, validators=[lambda x: x.lower()])
-    name = fields.CharField(required=True)
-    description = fields.CharField(default="")
+__all__ = [
+    "Realm",
+]
 
-    def create(self):
-        self.save(force_insert=True)
 
-    def update(self):
-        self.save()
+class Realm(Base):
+    __tablename__ = "realms"
 
-    class Meta:
-        # indexes = [IndexModel([("slug", ASCENDING)], unique=True)]
-        read_preference = ReadPreference.SECONDARY
-        write_concern = WriteConcern(j=True)
-        connection_alias = "keyloop"
-        collection_name = "Realms"
+    slug = sa.Column(sa.Text, unique=True, index=True)
+    name = sa.Column(sa.Text)
+    description = sa.Column(sa.Text, default="")

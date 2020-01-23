@@ -1,9 +1,16 @@
-from keyloop.models.realms import Realms
+from keyloop.models import Realm, DBSession
+
+
+def add_realm(slug, name):
+    realm = Realm(slug=slug, name=name)
+    DBSession.add(realm)
+    DBSession.flush()
+    return realm
 
 
 def test_realm_collection_api(testapp):
-    Realms("clients", "Clients").create()
-    Realms("admins", "Administrators").create()
+    add_realm(slug="clients", name="Clients")
+    add_realm(slug="admins", name="Administrators")
 
     res = testapp.get("/api/v1/realms")
     assert res.json == [
@@ -13,7 +20,7 @@ def test_realm_collection_api(testapp):
 
 
 def test_realm_resource_api(testapp):
-    Realms("clients", "Clients").create()
+    add_realm(slug="clients", name="Clients")
 
     res = testapp.get("/api/v1/realms/clients")
     assert res.json == {

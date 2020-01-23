@@ -5,27 +5,38 @@ with open("README.md") as f:
 
 requires = [
     "pyramid==1.10.4",
+    "pyramid-tm==2.4",
     "gunicorn==20.0.4",
     "marshmallow==3.3.0",
-    "pymodm==0.4.2",
     "cryptacular==1.5.5",
     "cornice==4.0.1",
+    "SQLAlchemy[postgresql_psycopg2binary]==1.3.13",
+    "zope.sqlalchemy==1.2",
+    "alembic==1.3.3",
+    "pyramid-ipython==0.2",
 ]
+
 test_requires = [
     "pytest",
     "pytest-cov",
     "WebTest==2.0.33",
     "freezegun==0.3.13",
 ]
+
 ci_requires = [
     "python-coveralls",
 ]
-dev_requires = ["black", "pre-commit", "pylint"] + test_requires
+
+dev_requires = [
+    "black",
+    "pre-commit",
+    "pylint",
+]
 
 extras_require = {
-    "dev": dev_requires,
     "test": test_requires,
-    "ci": ci_requires,
+    "dev": test_requires + dev_requires,
+    "ci": test_requires + ci_requires,
 }
 
 setup(
@@ -46,6 +57,9 @@ setup(
     packages=["keyloop",],
     entry_points={
         "paste.app_factory": ["main = keyloop:main",],
-        "console_scripts": ["kloop = keyloop.command.main:main"],
+        "console_scripts": [
+            "kloop = keyloop.command.main:main",
+            "initialize_keyloop_db = keyloop.models.initialize_db:main",
+        ],
     },
 )

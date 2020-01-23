@@ -5,7 +5,7 @@ from pyramid.security import Allow, Everyone, remember, forget
 from pyramid.httpexceptions import HTTPOk
 
 
-from keyloop.models.realms import Realms
+# from keyloop.models.realms import Realms
 
 
 policy = dict(

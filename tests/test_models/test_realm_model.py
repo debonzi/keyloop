@@ -1,17 +1,10 @@
-import pytest
-import pymongo
-
-from keyloop.models.realms import Realms
+from keyloop.models import Realm, DBSession
 
 
-def test_realm_config(registry):
-    Realms("blog", "Blog").create()
-    blog = Realms.objects.get({"_id": "blog"})
-    assert blog.name == "Blog"
+def test_realm_config():
+    blog = Realm(slug="blog", name="Blog")
+    DBSession.add(blog)
+    DBSession.flush()
 
-    Realms("blog", "Blog 2").update()
-    blog = Realms.objects.get({"_id": "blog"})
-    assert blog.name == "Blog 2"
-
-    with pytest.raises(pymongo.errors.DuplicateKeyError):
-        Realms("blog", "Blog").create()
+    realm = Realm.query.filter_by(uuid=blog.uuid).first()
+    assert realm.name == "Blog"
