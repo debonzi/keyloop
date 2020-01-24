@@ -14,6 +14,7 @@ requires = [
     "zope.sqlalchemy==1.2",
     "alembic==1.3.3",
     "pyramid-ipython==0.2",
+    "alembic==1.3.3",
 ]
 
 test_requires = [
