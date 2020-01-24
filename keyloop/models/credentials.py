@@ -15,6 +15,12 @@ bcrypt = cryptacular.bcrypt.BCRYPTPasswordManager()
 class Credential(Base):
     __tablename__ = "credentials"
 
+    def __init__(self, *args, **kwargs):
+        password = kwargs.pop("password", None)
+        super(Credential, self).__init__(*args, **kwargs)
+        if password:
+            self.password = password
+
     email = sa.Column(sa.Text, unique=True)
     _password = sa.Column(sa.Text)
 

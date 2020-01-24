@@ -2,8 +2,7 @@ from keyloop.models import Credential, DBSession
 
 
 def test_credential_password():
-    cred = Credential()
-    cred.password = "123123123a"
+    cred = Credential(password="123123123a")
 
     DBSession.add(cred)
     DBSession.flush()
