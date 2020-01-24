@@ -1,3 +1,6 @@
+import string
+from random import choice, randint
+
 import factory
 
 from keyloop.models import Credential, DBSession, Realm
@@ -8,8 +11,11 @@ class CredentialFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = Credential
         sqlalchemy_session = DBSession
 
-    password = "123123123a"
-    email = factory.LazyAttribute(lambda o: "%s@geru.com.br" % factory.Faker("name"))
+    password = "".join(
+        choice(string.ascii_letters + string.punctuation + string.digits)
+        for x in range(randint(8, 16))
+    )
+    email = "example@example.com"
 
 
 class RealmFactory(factory.alchemy.SQLAlchemyModelFactory):
