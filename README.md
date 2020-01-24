@@ -1,3 +1,15 @@
+master branch:
+
+[![Build Status](https://api.travis-ci.org/debonzi/keyloop.svg?branch=master)](https://travis-ci.org/debonzi/keyloop)
+
+development branch:
+
+[![Build Status](https://api.travis-ci.org/debonzi/keyloop.svg?branch=develop)](https://travis-ci.org/debonzi/keyloop)
+
+last build
+
+[![Build Status](https://api.travis-ci.org/debonzi/keyloop.svg)](https://travis-ci.org/debonzi/keyloop)
+
 # Key Loop
 ## Development
  * Create a 3.7 python virtual env using you prefered tool and activate it

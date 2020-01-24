@@ -1,6 +1,5 @@
 from cornice import resource
 
-from pymodm.errors import DoesNotExist
 from pyramid.security import Allow, Everyone, remember, forget
 from pyramid.httpexceptions import HTTPOk
 
