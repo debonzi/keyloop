@@ -22,6 +22,7 @@ test_requires = [
     "pytest-cov",
     "WebTest==2.0.33",
     "freezegun==0.3.13",
+    "factory-boy==2.12.0",
 ]
 
 ci_requires = [

@@ -1,12 +1,13 @@
+import transaction
+
 from keyloop.models import Credential, DBSession
+from tests.factories import CredentialFactory
 
 
 def test_credential_password():
-    cred = Credential(password="123123123a")
-
+    cred = CredentialFactory(password="123123123a")
+    transaction.commit()
     DBSession.add(cred)
-    DBSession.flush()
-
     restored_cred = Credential.query.filter_by(uuid=cred.uuid).first()
 
     assert restored_cred._password != "123123123a"  # pylint: disable=protected-access
