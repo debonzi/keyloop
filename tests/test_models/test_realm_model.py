@@ -1,10 +1,13 @@
-from keyloop.models import Realm, DBSession
+import transaction
+
+from keyloop.models import DBSession, Realm
+from tests.factories import RealmFactory
 
 
 def test_realm_config():
-    blog = Realm(slug="blog", name="Blog")
+    blog = RealmFactory(slug="blog", name="Blog")
+    transaction.commit()
     DBSession.add(blog)
-    DBSession.flush()
 
     realm = Realm.query.filter_by(uuid=blog.uuid).first()
     assert realm.name == "Blog"
