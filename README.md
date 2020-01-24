@@ -4,7 +4,7 @@ master branch:
 
 development branch:
 
-[![Build Status](https://api.travis-ci.org/debonzi/keyloop.svg?branch=develop)](https://travis-ci.org/debonzi/keyloop)
+[![Build Status](https://api.travis-ci.org/debonzi/keyloop.svg?branch=development)](https://travis-ci.org/debonzi/keyloop)
 
 last build
 
