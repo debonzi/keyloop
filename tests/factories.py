@@ -32,4 +32,4 @@ class RealmFactory(factory.alchemy.SQLAlchemyModelFactory):
 
     name = factory.Faker("name")
     slug = factory.LazyAttribute(lambda s: s.name.lower().replace(" ", "_"))
-    description = "test"
+    description = ""
