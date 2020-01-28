@@ -1,6 +1,7 @@
 import sqlalchemy as sa
 
 import cryptacular.bcrypt
+from sqlalchemy.dialects.postgresql import JSONB
 
 from .base import Base
 
@@ -21,8 +22,13 @@ class Credential(Base):
         if password:
             self.password = password
 
-    email = sa.Column(sa.Text, unique=True)
-    _password = sa.Column(sa.Text)
+    email = sa.Column(sa.Text, unique=True, nullable=False)
+    _password = sa.Column(sa.Text, nullable=False)
+    name = sa.Column(sa.Text)
+    username = sa.Column(sa.Text, unique=True, nullable=False)
+    msisdn = sa.Column(sa.Text, nullable=False)
+    citizen_id = sa.Column(sa.Text, nullable=False)
+    additional_data = sa.Column(JSONB, nullable=True, default=dict)
 
     def _set_password(self, value):
         self._password = bcrypt.encode(value)
