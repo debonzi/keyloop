@@ -15,7 +15,7 @@ class CredentialFactory(factory.alchemy.SQLAlchemyModelFactory):
     username = factory.LazyAttribute(lambda s: s.name.lower().replace(" ", "_"))
     msisdn = "551199999999"
     citizen_id = "1234567809"
-    additional_data = {"key1": "value1"}
+    _metadata = {"key1": "value1"}
     password = "".join(
         choice(string.ascii_letters + string.punctuation + string.digits)
         for x in range(randint(8, 16))
