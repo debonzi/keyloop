@@ -1,8 +1,9 @@
-from keyloop.models import Realm, DBSession
+from keyloop.models import DBSession
+from tests.factories import RealmFactory
 
 
 def add_realm(slug, name):
-    realm = Realm(slug=slug, name=name)
+    realm = RealmFactory(slug=slug, name=name)
     DBSession.add(realm)
     DBSession.flush()
     return realm

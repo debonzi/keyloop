@@ -11,11 +11,18 @@ class CredentialFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = Credential
         sqlalchemy_session = DBSession
 
+    name = factory.Faker("name")
+    username = factory.LazyAttribute(lambda s: s.name.lower().replace(" ", "_"))
+    msisdn = "551199999999"
+    citizen_id = "1234567809"
+    _metadata = {"key1": "value1"}
     password = "".join(
         choice(string.ascii_letters + string.punctuation + string.digits)
         for x in range(randint(8, 16))
     )
-    email = "example@example.com"
+    email = factory.LazyAttribute(
+        lambda n: "{}@example.com".format(n.name.lower().replace(" ", "_"))
+    )
 
 
 class RealmFactory(factory.alchemy.SQLAlchemyModelFactory):
@@ -25,4 +32,4 @@ class RealmFactory(factory.alchemy.SQLAlchemyModelFactory):
 
     name = factory.Faker("name")
     slug = factory.LazyAttribute(lambda s: s.name.lower().replace(" ", "_"))
-    description = "test"
+    description = ""
